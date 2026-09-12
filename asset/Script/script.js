@@ -1,135 +1,136 @@
-const weatherIcon = document.getElementById("weather-icon");
 
-const cityInput = document.getElementById("city-input");
+const weatherIcon = document.getElementById('weather-icon')
 
-const searchButton = document.getElementById("search-btn");
+const cityInput = document.getElementById('city-input')
 
-const cityName = document.getElementById("city-name");
+const searchButton = document.getElementById('search-btn')
 
-const temperature = document.getElementById("temperature");
+const cityName = document.getElementById('city-name')
 
-const weatherDescription = document.getElementById("weather-description");
+const temperature = document.getElementById('temperature')
 
-const humidity = document.getElementById("humidity");
+const weatherDescription = document.getElementById('weather-description')
 
-const windSpeed = document.getElementById("wind-speed");
+const humidity = document.getElementById('humidity')
 
-searchButton.addEventListener("click", function () {
-  const city = cityInput.value.trim();
+const windSpeed = document.getElementById('wind-speed')
 
-  if (city === "") {
-    return;
+searchButton.addEventListener('click', function () {
+  const city = cityInput.value.trim()
+
+  if (city === '') {
+    return
   }
 
-  cityName.textContent = city;
+  cityName.textContent = city
 
-  getCityCoordinates(city);
-});
+  getCityCoordinates(city)
+})
 
-function getWeatherDescription(weatherCode) {
+function getWeatherDescription (weatherCode) {
   if (weatherCode === 0) {
-    return "Clear sky";
+    return 'Clear sky'
   } else if (weatherCode === 1 || weatherCode === 2) {
-    return "Partly cloudy";
+    return 'Partly cloudy'
   } else if (weatherCode === 3) {
-    return "Overcast";
+    return 'Overcast'
   } else if (weatherCode === 45 || weatherCode === 48) {
-    return "Foggy";
+    return 'Foggy'
   } else if (weatherCode >= 51 && weatherCode <= 57) {
-    return "Drizzle";
+    return 'Drizzle'
   } else if (weatherCode >= 61 && weatherCode <= 67) {
-    return "Rain";
+    return 'Rain'
   } else if (weatherCode >= 71 && weatherCode <= 77) {
-    return "Snow";
+    return 'Snow'
   } else if (weatherCode >= 80 && weatherCode <= 82) {
-    return "Rain showers";
+    return 'Rain showers'
   } else if (weatherCode >= 85 && weatherCode <= 86) {
-    return "Snow showers";
+    return 'Snow showers'
   } else if (weatherCode >= 95 && weatherCode <= 99) {
-    return "Thunderstorm";
+    return 'Thunderstorm'
   } else {
-    return "Unknown weather";
+    return 'Unknown weather'
   }
 }
 
-function setWeatherBackground(weatherCode) {
-  document.body.className = "";
+function setWeatherBackground (weatherCode) {
+  document.body.className = ''
 
   if (weatherCode === 0) {
-    document.body.classList.add("clear");
+    document.body.classList.add('clear')
   } else if (weatherCode === 1 || weatherCode === 2) {
-    document.body.classList.add("partly-cloudy");
+    document.body.classList.add('partly-cloudy')
   } else if (weatherCode === 3) {
-    document.body.classList.add("overcast");
+    document.body.classList.add('overcast')
   } else if (weatherCode === 45 || weatherCode === 48) {
-    document.body.classList.add("fog");
+    document.body.classList.add('fog')
   } else if (weatherCode >= 51 && weatherCode <= 82) {
-    document.body.classList.add("rain");
+    document.body.classList.add('rain')
   } else if (weatherCode >= 95 && weatherCode <= 99) {
-    document.body.classList.add("thunderstorm");
+    document.body.classList.add('thunderstorm')
   }
 }
 
-function getWeatherIcon(weatherCode) {
+function getWeatherIcon (weatherCode) {
   if (weatherCode === 0) {
-    return "☀️";
+    return '☀️'
   } else if (weatherCode === 1 || weatherCode === 2) {
-    return "🌤️";
+    return '🌤️'
   } else if (weatherCode === 3) {
-    return "☁️";
+    return '☁️'
   } else if (weatherCode === 45 || weatherCode === 48) {
-    return "🌫️";
+    return '🌫️'
   } else if (weatherCode >= 51 && weatherCode <= 57) {
-    return "🌦️";
+    return '🌦️'
   } else if (weatherCode >= 61 && weatherCode <= 67) {
-    return "🌧️";
+    return '🌧️'
   } else if (weatherCode >= 71 && weatherCode <= 77) {
-    return "❄️";
+    return '❄️'
   } else if (weatherCode >= 80 && weatherCode <= 82) {
-    return "🌦️";
+    return '🌦️'
   } else if (weatherCode >= 85 && weatherCode <= 86) {
-    return "🌨️";
+    return '🌨️'
   } else if (weatherCode >= 95 && weatherCode <= 99) {
-    return "⛈️";
+    return '⛈️'
   } else {
-    return "🌍";
+    return '🌍'
   }
 }
 
-async function getCityCoordinates(city) {
+async function getCityCoordinates (city) {
   const response = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`,
-  );
+    `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1&language=en&format=json`
+  )
 
-  const data = await response.json();
+  const data = await response.json()
 
   if (!data.results) {
-    weatherDescription.textContent = "City not found";
-    return;
+    weatherDescription.textContent = 'City not found'
+    return
   }
 
-  const latitude = data.results[0].latitude;
-  const longitude = data.results[0].longitude;
+  const latitude = data.results[0].latitude
+  const longitude = data.results[0].longitude
 
   const weatherResponse = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`,
-  );
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code`
+  )
 
-  const weatherData = await weatherResponse.json();
+  const weatherData = await weatherResponse.json()
 
-  const currentWeather = weatherData.current;
+  const currentWeather = weatherData.current
 
-  temperature.textContent = `${currentWeather.temperature_2m}°C`;
+  temperature.textContent = `${currentWeather.temperature_2m}°C`
 
-  humidity.textContent = `${currentWeather.relative_humidity_2m}%`;
+  humidity.textContent = `${currentWeather.relative_humidity_2m}%`
 
-  windSpeed.textContent = `${currentWeather.wind_speed_10m} km/h`;
+  windSpeed.textContent = `${currentWeather.wind_speed_10m} km/h`
 
-  const description = getWeatherDescription(currentWeather.weather_code);
+  const description = getWeatherDescription(currentWeather.weather_code)
 
-  weatherDescription.textContent = description;
+  weatherDescription.textContent = description
 
-  weatherIcon.textContent = getWeatherIcon(currentWeather.weather_code);
+  weatherIcon.textContent = getWeatherIcon(currentWeather.weather_code)
 
-  setWeatherBackground(currentWeather.weather_code);
+  setWeatherBackground(currentWeather.weather_code)
 }
