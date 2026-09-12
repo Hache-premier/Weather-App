@@ -81,11 +81,11 @@ cd Weather_App
 
 You can open it in your browser in two ways:
 
-**Option 1: Direct Open**
+*Option 1: Direct Open**
 
 * Open the `index.html` file in your preferred web browser.
 
-**Option 2 (Recommended): Live Server**
+*Option 2 (Recommended): Live Server**
 
 * Install the **Live Server** extension in VS Code.
 * Right-click `index.html`.
@@ -139,4 +139,3 @@ You can open it in your browser in two ways:
 Software Engineering Student
 
 🌍 Based in Cameroon | Passionate about web development and continuously learning new technologies 🚀
-
