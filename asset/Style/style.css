@@ -1,0 +1,300 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background: #87ceeb;
+  transition: background 1s ease;
+  overflow: hidden;
+}
+
+.weather-app {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 450px;
+  padding: 30px;
+  text-align: center;
+  background: white;
+  border-radius: 20px;
+}
+
+.weather-app h1 {
+  margin-bottom: 25px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #0077b6;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background: #005f8f;
+}
+
+.weather-info h2 {
+  margin-bottom: 15px;
+}
+
+#weather-icon {
+  font-size: 70px;
+  margin-bottom: 10px;
+}
+
+#temperature {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#weather-description {
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.weather-details {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.weather-details p {
+  font-size: 16px;
+}
+
+/* Weather backgrounds */
+
+body.clear {
+  background: linear-gradient(135deg, #56ccf2, #2f80ed);
+}
+
+body.partly-cloudy {
+  background: linear-gradient(135deg, #74ebd5, #5cc6e8);
+}
+
+body.overcast {
+  background: linear-gradient(135deg, #78909c, #455a64);
+}
+
+body.rain {
+  background: linear-gradient(135deg, #4b79a1, #283e51);
+}
+
+body.thunderstorm {
+  background: linear-gradient(135deg, #232526, #414345);
+}
+
+body.fog {
+  background: linear-gradient(135deg, #b0bec5, #78909c);
+}
+
+/* Weather animation base */
+
+body.clear::before,
+body.partly-cloudy::before,
+body.overcast::before,
+body.rain::before,
+body.thunderstorm::before,
+body.fog::before {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Clear sky */
+
+body.clear::before {
+  content: "☀️";
+  top: 8%;
+  right: 10%;
+  font-size: 80px;
+  animation: sun-move 4s ease-in-out infinite;
+}
+
+/* Partly cloudy */
+
+body.partly-cloudy::before {
+  content: "☁️";
+  top: 10%;
+  left: -100px;
+  font-size: 70px;
+  animation: cloud-move 18s linear infinite;
+}
+
+/* Overcast */
+
+body.overcast::before {
+  content: "☁️ ☁️ ☁️";
+  top: 8%;
+  left: -200px;
+  font-size: 60px;
+  white-space: nowrap;
+  animation: cloud-move 20s linear infinite;
+}
+
+/* Rain */
+
+body.rain::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      transparent 45%,
+      rgb(255 255 255 / 45%) 50%,
+      transparent 55%,
+      transparent 100%
+    );
+  background-size: 4px 45px;
+  animation: rain-fall 0.55s linear infinite;
+  opacity: 0.5;
+}
+
+/* Thunderstorm */
+
+body.thunderstorm::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(
+      110deg,
+      transparent 0%,
+      transparent 45%,
+      rgb(255 255 255 / 50%) 50%,
+      transparent 55%,
+      transparent 100%
+    );
+  background-size: 4px 40px;
+  animation: rain-fall 0.45s linear infinite;
+  opacity: 0.6;
+}
+
+/* Lightning */
+
+body.thunderstorm::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: white;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  animation: lightning-flash 6s infinite;
+}
+
+/* Fog */
+
+body.fog::before {
+  content: "🌫️";
+  top: 10%;
+  left: -150px;
+  font-size: 90px;
+  animation: fog-move 12s linear infinite;
+}
+
+/* Animations */
+
+@keyframes sun-move {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(10deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes cloud-move {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes rain-fall {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 60px 100vh;
+  }
+}
+
+@keyframes lightning-flash {
+  0%,
+  88%,
+  100% {
+    opacity: 0;
+  }
+
+  89% {
+    opacity: 0.85;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  91% {
+    opacity: 0.55;
+  }
+
+  92% {
+    opacity: 0;
+  }
+}
+
+@keyframes fog-move {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(120vw);
+  }
+}
